@@ -1,0 +1,20 @@
+function orphannets() {
+
+	list = idplist("alloc");
+	query("append", list, "((@.type == GRP)) && ((@.a.role == 'wire-net'))");
+	for (id = idplist("pop", list); id != ""; id = idplist("pop", list)) {
+		oid = idp("print", id);
+		name = propget("object:" @ oid, "a/name");
+		idp("free", id);
+
+		count = query("count", "((@.type == GRP)) && ((@.a.role == 'wire-net')) && ((@.a.name == '" @ name @ "'))");
+		if (count == 1) {
+			message("WARNING", "Net " @ name @ " is an orphan!");
+		}
+	}
+	idplist("free", list);
+}
+
+function main() {
+	fgw_func_reg(orphannets);
+}
