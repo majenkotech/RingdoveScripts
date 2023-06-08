@@ -1,0 +1,25 @@
+function globalfixclear(clr) 
+{
+	# Grab whatever's in the current paste buffer
+	list = idplist("alloc");
+	count = query("count", "((@.p.flag.selected == 1))");
+	if (count > 0) {
+		query("append", list, "((@.type == PADSTACK)) && ((@.p.flag.selected == 1))");
+	} else {
+		query("append", list, "@.type == PADSTACK");
+	}
+	c = idplist("length", list);
+
+	for (id = idplist("pop", list); id != ""; id = idplist("pop", list)) {
+		propset("object:" @ idp("print", id), "p/padstack/clearance", clr);
+		idp("free", id);
+	}
+	idplist("free", id);
+
+	return 0;
+}
+
+function main(ARGV)
+{
+	fgw_func_reg(globalfixclear);
+}
