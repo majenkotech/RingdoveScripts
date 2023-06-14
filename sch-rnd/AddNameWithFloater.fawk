@@ -81,7 +81,7 @@ function addnamewithfloater(
 	_y = schgetxy("crosshair", "Select location", "Y");
 
 	_scope = "object:" @ _oid;
-	_text = drawtext("retptr", _scope, _x, _y, "%../a.name%", "wire");
+	_text = drawtext("retptr", _scope, _x, _y, "%../A.name%", "wire");
 	propset("objbin", _text, "p/text/dyntext", 1);
 	propset("objbin", _text, "p/floater", 1);
 	idp("free", _found);
